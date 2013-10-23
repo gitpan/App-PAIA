@@ -1,7 +1,7 @@
 #ABSTRACT: HTTP client wrapper
 package App::PAIA::Agent;
 use v5.14;
-our $VERSION = '0.01'; #VERSION
+our $VERSION = '0.10'; #VERSION
 
 use HTTP::Tiny 0.018; # core module 0.012 does not support verify_SSL
 use URI;
@@ -62,6 +62,8 @@ sub request {
 
 sub show_request {
     my ($self, $method, $url, $headers, $content) = @_;
+
+    say "# $method $url";
     return unless $self->{verbose};
 
     say "> $method " . $url->path_query . " HTTP/1.1";
@@ -104,7 +106,7 @@ App::PAIA::Agent - HTTP client wrapper
 
 =head1 VERSION
 
-version 0.01
+version 0.10
 
 =head1 DESCRIPTION
 

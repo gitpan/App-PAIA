@@ -1,6 +1,6 @@
 package App::PAIA::JSON;
 use v5.14;
-our $VERSION = '0.01'; #VERSION
+our $VERSION = '0.10'; #VERSION
 
 use base 'Exporter';
 our @EXPORT = qw(decode_json encode_json);
@@ -14,7 +14,7 @@ sub decode_json {
         $msg =~ s/.+? ta //sm;
         $msg = "JSON error: " . scalar reverse($msg);
         $msg .= " in " . shift if @_;
-        die $msg;
+        die "$msg\n";
     }
     return $data;
 }
@@ -37,7 +37,7 @@ App::PAIA::JSON
 
 =head1 VERSION
 
-version 0.01
+version 0.10
 
 =head1 DESCRIPTION
 

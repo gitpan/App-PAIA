@@ -27,7 +27,7 @@ my %WriteMakefileArgs = (
     "Net::SSLeay" => "1.49"
   },
   "TEST_REQUIRES" => {},
-  "VERSION" => "0.01",
+  "VERSION" => "0.10",
   "test" => {
     "TESTS" => "t/*.t"
   }

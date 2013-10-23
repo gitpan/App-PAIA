@@ -2,7 +2,7 @@
 package App::PAIA::Command::logout;
 use base 'App::PAIA::Command';
 use v5.14;
-our $VERSION = '0.01'; #VERSION
+our $VERSION = '0.10'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -36,7 +36,7 @@ App::PAIA::Command::logout - invalidate an access token
 
 =head1 VERSION
 
-version 0.01
+version 0.10
 
 =head1 AUTHOR
 

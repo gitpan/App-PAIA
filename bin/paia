@@ -2,7 +2,7 @@
 ##no critic
 #ABSTRACT: Patrons Account Information API command line client 
 #PODNAME: paia
-our $VERSION = '0.01'; #VERSION
+our $VERSION = '0.10'; #VERSION
 use App::PAIA;
 App::PAIA->run;
 
@@ -18,7 +18,7 @@ paia - Patrons Account Information API command line client
 
 =head1 VERSION
 
-version 0.01
+version 0.10
 
 =head1 DESCRIPTION
 
@@ -34,16 +34,26 @@ argument to the client. For instance
 
 calls the "items" command of PAIA core. Access to PAIA core commands is granted
 by access tokens that can be required by the "login" command. By default the
-client automatically calls "login" if needed. Access token, patron identifier
-and status of a connection are stored in a session file (C<.paia_session> by
-default).
+client automatically calls "login" if needed.
+
+Basic options, such as base/core/auth URLs, username, and password can be stored
+in a config file, such as following. By default C<paia.json> read used if found.
+
+    {
+      "base": "http://example.org/",
+      "username": "alice",
+      "password": "12345"
+    }
+
+Access token, patron identifier and PAIA server URLs are stored in a session
+file (C<.paia_session> by default) that can be checked with command "session".
 
 =head1 USAGE
 
     paia login --base http://example.org/ --username alice --password 12345
     paia patron
-    paia status
     ...
+    paia session --verbose
     paia logout
 
 Run C<paia help> or C<perldoc paia> for more commands and options.
@@ -107,9 +117,9 @@ List fees.
 
 =over
 
-=item status
+=item session
 
-Show current session status (access token, patron identifier etc.).
+Shows the current PAIA auth session status from session file.
 
 =item help
 
@@ -119,7 +129,17 @@ Show help.
 
 =head1 SEE ALSO
 
-L<http://gbv.github.io/paia/> - PAIA specification
+=over
+
+=item L<http://gbv.github.io/paia/>
+
+PAIA specification
+
+=item L<App::PAIA>
+
+Perl module used to implement this client
+
+=back
 
 =head1 AUTHOR
 

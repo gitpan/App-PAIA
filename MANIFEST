@@ -18,7 +18,7 @@ lib/App/PAIA/Command/logout.pm
 lib/App/PAIA/Command/patron.pm
 lib/App/PAIA/Command/renew.pm
 lib/App/PAIA/Command/request.pm
-lib/App/PAIA/Command/status.pm
+lib/App/PAIA/Command/session.pm
 lib/App/PAIA/JSON.pm
 t/00-compile.t
 t/author-critic.t

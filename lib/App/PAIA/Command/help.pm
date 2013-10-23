@@ -2,7 +2,7 @@
 package App::PAIA::Command::help;
 use parent 'App::Cmd::Command::help';
 use v5.14;
-our $VERSION = '0.01'; #VERSION
+our $VERSION = '0.10'; #VERSION
 
 sub execute {
     my ($self, $opts, $args) = @_;
@@ -20,7 +20,7 @@ sub execute {
         Getopt::Long::Descriptive->VERSION(0.084);
 
         my (undef, $usage) = Getopt::Long::Descriptive::describe_options(
-            "%c $command %o ", $cmd->opt_spec, App::PAIA->global_opt_spec
+            $cmd->usage_desc, $cmd->opt_spec, App::PAIA->global_opt_spec
         );
 
         my $desc = $cmd->description; chomp $desc;
@@ -41,7 +41,7 @@ sub execute {
         my @cmd_groups = (
             "PAIA auth commands" => [qw(login logout change)],
             "PAIA core commands" => [qw(patron items request renew cancel fees)],
-            "client commands"    => [qw(status help)]
+            "client commands"    => [qw(session help)]
         );
 
         while (@cmd_groups) {
@@ -53,7 +53,7 @@ sub execute {
             say;
         }    
 
-        say "call 'paia help <command>' or 'perldoc paia' for more help";
+        say "call 'paia help <command>' or 'perldoc paia' for more details.";
     }
 }
 
@@ -70,7 +70,7 @@ App::PAIA::Command::help - show help
 
 =head1 VERSION
 
-version 0.01
+version 0.10
 
 =head1 AUTHOR
 

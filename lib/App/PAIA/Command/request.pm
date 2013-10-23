@@ -2,11 +2,25 @@
 package App::PAIA::Command::request;
 use base 'App::PAIA::Command';
 use v5.14;
-our $VERSION = '0.01'; #VERSION
+our $VERSION = '0.10'; #VERSION
+
+use App::PAIA::JSON;
+
+sub usage_desc {
+    "%c request %o URI [item=URI] [edition=URI] ..."
+    # storage not supported yet
+}
 
 sub execute {
     my ($self, $opt, $args) = @_;
-    die "Not implemented yet!\n";
+
+    my @docs = $self->uri_list(@$args);
+    
+    $self->usage_error("Missing document URIs to request")
+        unless @docs;
+
+    my $response = $self->core_request( 'POST', 'request', { doc => \@docs } );
+    say encode_json($response);
 }
 
 1;
@@ -22,7 +36,7 @@ App::PAIA::Command::request - request one or more items for reservation or deliv
 
 =head1 VERSION
 
-version 0.01
+version 0.10
 
 =head1 AUTHOR
 

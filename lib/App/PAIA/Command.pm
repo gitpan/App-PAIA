@@ -2,17 +2,24 @@
 package App::PAIA::Command;
 use App::Cmd::Setup -command;
 use v5.14;
-our $VERSION = '0.01'; #VERSION
+our $VERSION = '0.10'; #VERSION
 
 use App::PAIA::Agent;
 use App::PAIA::JSON;
+use URI::Escape;
+use URI;
 
-# get option from command line, session, or config file
 sub option { 
     my ($self, $name) = @_;
-    $self->app->global_options->{$name} 
-        // $self->session->{$name} 
-        // $self->config->{$name};
+    $self->app->global_options->{$name} # command line 
+        // $self->session->{$name}      # session file
+        // $self->config->{$name};      # config file
+}
+
+sub explicit_option {
+    my ($self, $name) = @_;
+    $self->app->global_options->{$name} # command line
+        // $self->config->{$name};      # config file
 }
 
 # get base URL
@@ -47,27 +54,28 @@ sub token {
         // $self->config->{'access_token'};
 }
 
-sub authentificated {
-    my ($self, %options) = @_;
+sub not_authentificated {
+    my ($self, $scope) = @_;
 
-    # TODO: scope
-    my $token = $self->token // return;
-    my $expires = $self->session->{expires_at} // return;
+    my $token = $self->token // return "missing access token";
 
-    if ($expires <= time) {
-        $self->log("access token expired.",$options{verbose});
-        return;
-    }
-
-    if ($options{scope}) {
-        my $scope = $self->scope // '';
-        if ( index($scope, $options{scope}) == -1 ) {
-            $self->log("curren scope '$scope' does not allow ".$options{scope},$options{verbose});
-            return;
+    if ( my $expires = $self->session->{expires_at} ) {
+        if ($expires <= time) {
+            return "access token expired";
         }
     }
 
-    return 1;
+    if ($scope and !$self->has_scope($scope)) {
+        return "current scope does not include $scope";
+    }
+
+    return;
+}
+
+sub has_scope {
+    my ($self, $scope) = @_;
+    my $has_scope = $self->scope // '';
+    return index($has_scope, $scope) != -1;
 }
 
 # emit a message only in verbose mode
@@ -87,11 +95,7 @@ sub config_file {
 
 sub config {
     my ($self) = @_;
-    $self->{config} //= do {
-        my $file = $self->config_file;
-        local (@ARGV, $/) = $file;
-        defined $file ? decode_json(<>,$file) : { };
-    };
+    $self->{config} //= $self->load_file( $self->config_file, 'config file' );
 }
 
 sub session_file {
@@ -102,12 +106,17 @@ sub session_file {
 
 sub session {
     my ($self) = @_;
-    $self->{session} //= do {
-        my $file = $self->session_file;
-        local (@ARGV, $/) = $file;
-        defined $file ? decode_json(<>,$file) : { };
-    };
+    $self->{session} //= $self->load_file( $self->session_file, 'session file' );
 }
+
+sub load_file {
+    my ($self, $file, $type) = @_;
+    return { } unless defined $file;
+    local $/;
+    open (my $fh, '<', $file) or die "failed to open $type $file\n";
+    decode_json(<$fh>,$file);
+}
+
 # </TODO>
 
 sub save_session {
@@ -154,18 +163,21 @@ sub request {
 }
 
 sub login {
-    my ($self, %params) = @_;
+    my ($self, $scope) = @_;
 
-    my $auth = $self->auth // $self->usage_error("missing PAIA auth URL");
+    my $auth = $self->auth or $self->usage_error("missing PAIA auth server URL");
 
-    $self->usage_error("missing username") unless defined $params{username};
-    $self->usage_error("missing password") unless defined $params{password};
-    if (defined $params{scope}) {
-        $params{scope} =~ s/,/ /g;
-    } else {
-        delete $params{scope} if exists $params{scope};
+    # take credentials from command line or config file only
+    my %params = (
+        username => ($self->explicit_option('username') // $self->usage_error("missing username")),
+        password => ($self->explicit_option('password') // $self->usage_error("missing password")),
+        grant_type => 'password',
+    );
+
+    if (defined $scope) {
+        $scope =~ s/,/ /g;
+        $params{scope} = $scope;
     }
-    $params{grant_type} = 'password';
 
     my $response = $self->request( "POST", "$auth/login", \%params );
 
@@ -173,9 +185,11 @@ sub login {
 
     $self->{session}->{$_} = $response->{$_} for qw(access_token patron scope);
     $self->{session}->{expires_at} = time + $response->{expires_in};
+    $self->{session}->{auth} = $auth;
+    $self->{session}->{core} = $self->core if defined $self->core;
 
     $self->save_session;
-
+    
     return $response;
 }
 
@@ -190,27 +204,45 @@ our %required_scopes = (
 );
 
 sub core_request {
-    my ($self, $method, $command, $params, $opt) = @_;
+    my ($self, $method, $command, $params) = @_;
 
-    my $core  = $self->core // $self->usage_error("missing PAIA core URL");
+    my $core  = $self->core // $self->usage_error("missing PAIA core server URL");
     my $scope = $required_scopes{$command};
 
-    if (!$self->authentificated( scope => $scope )) {
+    if ($self->not_authentificated( $scope )) {
         $self->log("auto-login with scope $scope");
-        $self->login(
-            username => ($self->app->global_options->{username} // $self->config->{username}),
-            password => ($self->app->global_options->{password} // $self->config->{password}),
-            scope    => $scope,
-        );
+        $self->login( $scope );
+        if ( $self->scope and !$self->has_scope($scope) ) {
+            say "current scope does not include $scope!";
+            exit 1;
+        }
     }
 
     my $patron = $self->patron // $self->usage_error("missing patron identifier");
 
-    # TODO: URI-escape patron
-    my $url = "$core/$patron";
+    my $url = "$core/".uri_escape($patron);
     $url .= "/$command" if $command ne 'patron';
 
-    $self->request( $method => $url );
+    # save PAIA core URL in session
+    if ( ($self->session->{core} // '') ne $core ) {
+        $self->{session}->{core} = $core;
+        $self->save_session;
+        # TODO: could we save new expiry as well? 
+    }
+
+    $self->request( $method => $url, $params );
+}
+
+# used in command::renew and ::cancel
+sub uri_list {
+    my $self = shift;
+    map {
+        /^((edition|item)=)?(.+)/;
+        my $uri = URI->new($3);
+        $self->usage_error("not an URI: $3") unless $uri and $uri->scheme;
+        my $d = { ($2 // "item") => "$uri" };
+        $d;
+    } @_;
 }
 
 1;
@@ -226,7 +258,7 @@ App::PAIA::Command - common base class of PAIA client commands
 
 =head1 VERSION
 
-version 0.01
+version 0.10
 
 =head1 AUTHOR
 

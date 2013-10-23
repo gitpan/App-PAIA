@@ -2,7 +2,7 @@
 package App::PAIA::Command::login;
 use base 'App::PAIA::Command';
 use v5.14;
-our $VERSION = '0.01'; #VERSION
+our $VERSION = '0.10'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -13,11 +13,7 @@ sub description {
 sub execute {
     my ($self, $opt, $args) = @_;
 
-    # use command line or config options
-    my $response = $self->login( 
-        map { $_ => ($self->app->global_options->{$_} // $self->config->{$_}) }
-        qw(username password scope)
-    );
+    my $response = $self->login( $self->explicit_option('scope') );
 
     print encode_json($response);
 }
@@ -35,7 +31,7 @@ App::PAIA::Command::login - get a access token and patron identifier
 
 =head1 VERSION
 
-version 0.01
+version 0.10
 
 =head1 AUTHOR
 

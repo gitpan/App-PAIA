@@ -2,14 +2,14 @@
 package App::PAIA::Command::fees;
 use base 'App::PAIA::Command';
 use v5.14;
-our $VERSION = '0.01'; #VERSION
+our $VERSION = '0.10'; #VERSION
 
 use App::PAIA::JSON;
 
 sub execute {
     my ($self, $opt, $args) = @_;
 
-    my $response = $self->core_request( 'GET', 'fees', undef, $opt );
+    my $response = $self->core_request('GET', 'fees');
     say encode_json($response);
 }
 
@@ -26,7 +26,7 @@ App::PAIA::Command::fees - list fees
 
 =head1 VERSION
 
-version 0.01
+version 0.10
 
 =head1 AUTHOR
 
