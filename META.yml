@@ -20,4 +20,4 @@ resources:
   bugtracker: https://github.com/gbv/App-PAIA/issues
   homepage: https://github.com/gbv/App-PAIA
   repository: https://github.com/gbv/App-PAIA.git
-version: 0.10
+version: 0.11

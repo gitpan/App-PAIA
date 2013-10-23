@@ -1,7 +1,7 @@
 #ABSTRACT: HTTP client wrapper
 package App::PAIA::Agent;
 use v5.14;
-our $VERSION = '0.10'; #VERSION
+our $VERSION = '0.11'; #VERSION
 
 use HTTP::Tiny 0.018; # core module 0.012 does not support verify_SSL
 use URI;
@@ -11,7 +11,8 @@ sub new {
     my ($class, %options) = @_;
     bless {
         agent   => HTTP::Tiny->new( verify_SSL => (!$options{insecure}) ),
-        verbose => !!$options{verbose}
+        verbose => !!$options{verbose},
+        quiet   => !!$options{quiet},
     }, $class;
 }
 
@@ -26,6 +27,8 @@ sub request {
     };
     my $content;
 
+    say "# $method $url" unless $self->{quiet};
+
     if ($method eq 'POST') {
         $headers->{'Content-Type'} = 'application/json';
         $content = encode_json($param);
@@ -38,6 +41,7 @@ sub request {
         headers => $headers,
         content => $content    
     } );
+    say "> " if $self->{verbose};
     $self->show_response( $response );
    
     return $response if $response->{status} eq '599';
@@ -62,8 +66,6 @@ sub request {
 
 sub show_request {
     my ($self, $method, $url, $headers, $content) = @_;
-
-    say "# $method $url";
     return unless $self->{verbose};
 
     say "> $method " . $url->path_query . " HTTP/1.1";
@@ -106,7 +108,7 @@ App::PAIA::Agent - HTTP client wrapper
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 DESCRIPTION
 
@@ -124,6 +126,10 @@ disables C<verfiy_SSL>.
 =item verbose
 
 enables output of request and response.
+
+=item quiet
+
+disables output of HTTP method and URL before each request.
 
 =back
 

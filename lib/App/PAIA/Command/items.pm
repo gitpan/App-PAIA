@@ -2,11 +2,15 @@
 package App::PAIA::Command::items;
 use base 'App::PAIA::Command';
 use v5.14;
-our $VERSION = '0.10'; #VERSION
+our $VERSION = '0.11'; #VERSION
+
+use App::PAIA::JSON;
 
 sub execute {
     my ($self, $opt, $args) = @_;
-    die "Not implemented yet!\n";
+
+    my $response = $self->core_request('GET', 'items');
+    print encode_json($response);
 }
 
 1;
@@ -22,7 +26,7 @@ App::PAIA::Command::items - list loans, reservations and other items related to 
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 AUTHOR
 

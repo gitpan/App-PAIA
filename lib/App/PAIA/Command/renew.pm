@@ -2,7 +2,7 @@
 package App::PAIA::Command::renew;
 use base 'App::PAIA::Command';
 use v5.14;
-our $VERSION = '0.10'; #VERSION
+our $VERSION = '0.11'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -23,7 +23,7 @@ sub execute {
         unless @docs;
 
     my $response = $self->core_request( 'POST', 'renew', { doc => \@docs } );
-    say encode_json($response);
+    print encode_json($response);
 }
 
 1;
@@ -39,7 +39,7 @@ App::PAIA::Command::renew - Renew one or more documents held by a patron
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 AUTHOR
 

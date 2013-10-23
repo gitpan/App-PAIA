@@ -2,7 +2,7 @@
 package App::PAIA;
 use base 'App::Cmd';
 use v5.14;
-our $VERSION = '0.10'; #VERSION
+our $VERSION = '0.11'; #VERSION
 
 # TODO: This should be part of App::Cmd, see https://github.com/rjbs/App-Cmd/pull/28
 sub run {
@@ -27,6 +27,7 @@ sub global_opt_spec {
     ['config|c=s'   => "configuration file (default: ./paia.json)"],
     ['session|s=s'  => "session file (default: ./.paia_session)"],
     ['verbose|v'    => "show what's going on internally"],
+    ['quiet|q'      => "don't show processing"],
     ['token|t=s'    => "explicit access_token"],
     ["username|u=s" => "username for login"],
     ["password|p=s" => "password for login"],
@@ -48,7 +49,7 @@ App::PAIA - Patrons Account Information API command line client
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 SYNOPSIS
 

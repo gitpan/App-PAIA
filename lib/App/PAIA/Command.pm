@@ -2,7 +2,7 @@
 package App::PAIA::Command;
 use App::Cmd::Setup -command;
 use v5.14;
-our $VERSION = '0.10'; #VERSION
+our $VERSION = '0.11'; #VERSION
 
 use App::PAIA::Agent;
 use App::PAIA::JSON;
@@ -131,8 +131,7 @@ sub save_session {
 sub agent {
     my ($self) = @_;
     $self->{agent} //= App::PAIA::Agent->new(
-        insecure => $self->option('insecure'),
-        verbose  => $self->option('verbose')
+        map { $_ => $self->option($_) } qw(insecure verbose quiet)
     );
 }
 
@@ -192,6 +191,7 @@ sub login {
     
     return $response;
 }
+
 
 our %required_scopes = (
     patron  => 'read_patron',
@@ -258,7 +258,7 @@ App::PAIA::Command - common base class of PAIA client commands
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 AUTHOR
 

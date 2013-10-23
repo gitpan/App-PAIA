@@ -2,7 +2,7 @@
 ##no critic
 #ABSTRACT: Patrons Account Information API command line client 
 #PODNAME: paia
-our $VERSION = '0.10'; #VERSION
+our $VERSION = '0.11'; #VERSION
 use App::PAIA;
 App::PAIA->run;
 
@@ -18,7 +18,19 @@ paia - Patrons Account Information API command line client
 
 =head1 VERSION
 
-version 0.10
+version 0.11
+
+=head1 SYNOPSIS
+
+    paia login --base http://example.org/paia/ --username alice --password 12345
+    paia patron
+    paia items
+    paia renew http://uri.example.org/item/123
+    ...
+    paia session --verbose
+    paia logout
+
+Run C<paia help> or C<perldoc paia> for more commands and options.
 
 =head1 DESCRIPTION
 
@@ -40,23 +52,13 @@ Basic options, such as base/core/auth URLs, username, and password can be stored
 in a config file, such as following. By default C<paia.json> read used if found.
 
     {
-      "base": "http://example.org/",
+      "base": "http://example.org/paia/",
       "username": "alice",
       "password": "12345"
     }
 
 Access token, patron identifier and PAIA server URLs are stored in a session
 file (C<.paia_session> by default) that can be checked with command "session".
-
-=head1 USAGE
-
-    paia login --base http://example.org/ --username alice --password 12345
-    paia patron
-    ...
-    paia session --verbose
-    paia logout
-
-Run C<paia help> or C<perldoc paia> for more commands and options.
 
 =head1 COMMANDS
 
@@ -71,15 +73,16 @@ PAIA servers do not need to support all PAIA commands.
 
 Get a access token and patron identifier from credentials (username and
 password). The patron identifier is used to uniquely identify a patron account.
-It may be identical with the username.
+It may be identical with the username. On success access token, patron
+identifier and base URL are stored to a session file.
 
 =item logout
 
-Invalidate an access token.
+Invalidate an access token. An existing session file is deleted.
 
 =item change
 
-Change login password.
+Change login password (not implemented yet).
 
 =back
 

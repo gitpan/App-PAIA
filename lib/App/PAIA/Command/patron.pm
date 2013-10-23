@@ -2,7 +2,7 @@
 package App::PAIA::Command::patron;
 use base 'App::PAIA::Command';
 use v5.14;
-our $VERSION = '0.10'; #VERSION
+our $VERSION = '0.11'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -10,7 +10,7 @@ sub execute {
     my ($self, $opt, $args) = @_;
 
     my $response = $self->core_request( 'GET', 'patron' );
-    say encode_json($response);
+    print encode_json($response);
 }
 
 1;
@@ -26,7 +26,7 @@ App::PAIA::Command::patron - get general patron information
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 AUTHOR
 

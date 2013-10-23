@@ -2,7 +2,7 @@
 package App::PAIA::Command::logout;
 use base 'App::PAIA::Command';
 use v5.14;
-our $VERSION = '0.10'; #VERSION
+our $VERSION = '0.11'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -14,7 +14,7 @@ sub execute {
     my $response = $self->request( 
         "POST", "$auth/logout", { patron => $self->patron }
     );
-    say encode_json($response);
+    print encode_json($response);
 
     if (defined $self->session_file) {
         $self->session;
@@ -36,7 +36,7 @@ App::PAIA::Command::logout - invalidate an access token
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 AUTHOR
 

@@ -2,7 +2,7 @@
 package App::PAIA::Command::session;
 use parent 'App::PAIA::Command';
 use v5.14;
-our $VERSION = '0.10'; #VERSION
+our $VERSION = '0.11'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -60,7 +60,7 @@ App::PAIA::Command::session - show current session status
 
 =head1 VERSION
 
-version 0.10
+version 0.11
 
 =head1 AUTHOR
 
