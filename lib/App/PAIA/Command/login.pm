@@ -1,20 +1,18 @@
 #ABSTRACT: get a access token and patron identifier
 package App::PAIA::Command::login;
-use base 'App::PAIA::Command';
-use v5.14;
-our $VERSION = '0.11'; #VERSION
-
-use App::PAIA::JSON;
+use strict;
+use v5.10;
+use parent 'App::PAIA::Command';
+our $VERSION = '0.20'; #VERSION
 
 sub description {
     "requests or renews an access_token from a PAIA auth server."
 }
 
-sub execute {
+sub _execute {
     my ($self, $opt, $args) = @_;
 
-    my $response = $self->login( $self->explicit_option('scope') );
-    print encode_json($response);
+    $self->login( $self->explicit_option('scope') );
 }
 
 1;
@@ -30,7 +28,7 @@ App::PAIA::Command::login - get a access token and patron identifier
 
 =head1 VERSION
 
-version 0.11
+version 0.20
 
 =head1 AUTHOR
 

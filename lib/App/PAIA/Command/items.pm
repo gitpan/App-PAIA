@@ -1,16 +1,16 @@
 #ABSTRACT: list loans, reservations and other items related to a patron
 package App::PAIA::Command::items;
-use base 'App::PAIA::Command';
-use v5.14;
-our $VERSION = '0.11'; #VERSION
+use strict;
+use v5.10;
+use parent 'App::PAIA::Command';
+our $VERSION = '0.20'; #VERSION
 
 use App::PAIA::JSON;
 
-sub execute {
+sub _execute {
     my ($self, $opt, $args) = @_;
 
-    my $response = $self->core_request('GET', 'items');
-    print encode_json($response);
+    $self->core_request('GET', 'items');
 }
 
 1;
@@ -26,7 +26,7 @@ App::PAIA::Command::items - list loans, reservations and other items related to 
 
 =head1 VERSION
 
-version 0.11
+version 0.20
 
 =head1 AUTHOR
 

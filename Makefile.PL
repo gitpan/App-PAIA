@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-
+use 5.010000;
 
 use ExtUtils::MakeMaker 6.30;
 
@@ -22,12 +22,14 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "App::PAIA",
   "PREREQ_PM" => {
-    "App::Cmd" => "0.314",
+    "App::Cmd" => "0.322",
+    "HTTP::Tiny" => "0.024",
     "IO::Socket::SSL" => "1.56",
+    "JSON::PP" => "2.27103",
     "Net::SSLeay" => "1.49"
   },
   "TEST_REQUIRES" => {},
-  "VERSION" => "0.11",
+  "VERSION" => "0.20",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -1,12 +1,13 @@
 #ABSTRACT: invalidate an access token
 package App::PAIA::Command::logout;
-use base 'App::PAIA::Command';
-use v5.14;
-our $VERSION = '0.11'; #VERSION
+use strict;
+use v5.10;
+use parent 'App::PAIA::Command';
+our $VERSION = '0.20'; #VERSION
 
 use App::PAIA::JSON;
 
-sub execute {
+sub _execute {
     my ($self, $opt, $args) = @_;
 
     my $auth = $self->auth // $self->usage_error("missing PAIA auth URL");
@@ -16,11 +17,13 @@ sub execute {
     );
     print encode_json($response);
 
-    if (defined $self->session_file) {
+    if (defined $self->session->file) {
         $self->session;
-        unlink $self->session_file;
+        unlink $self->session->file;
         $self->log("deleted session file");
     }
+
+    return;
 }
 
 1;
@@ -36,7 +39,7 @@ App::PAIA::Command::logout - invalidate an access token
 
 =head1 VERSION
 
-version 0.11
+version 0.20
 
 =head1 AUTHOR
 

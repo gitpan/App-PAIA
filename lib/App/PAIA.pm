@@ -1,23 +1,9 @@
 #ABSTRACT: Patrons Account Information API command line client
 package App::PAIA;
-use base 'App::Cmd';
-use v5.14;
-our $VERSION = '0.11'; #VERSION
-
-# TODO: This should be part of App::Cmd, see https://github.com/rjbs/App-Cmd/pull/28
-sub run {
-    my ($self) = @_;
-    $self = $self->new unless ref $self;
-
-    my @argv = $self->prepare_args();
-    if (grep { $_ eq '--version' } @argv) {
-        printf "%s (%s) version %s (%s)\n", 
-            $self->arg0, ref($self),
-            $self->VERSION, $self->full_arg0;
-    } else {
-        App::Cmd::run(@_);
-    }
-}
+use strict;
+use v5.10;
+use parent 'App::Cmd';
+our $VERSION = '0.20'; #VERSION
 
 sub global_opt_spec {
     ['base|b=s'     => "base URL of PAIA server"],
@@ -25,13 +11,14 @@ sub global_opt_spec {
     ['core=s'       => "base URL of PAIA core server"],
     ['insecure|k'   => "disable verification of SSL certificates"],
     ['config|c=s'   => "configuration file (default: ./paia.json)"],
-    ['session|s=s'  => "session file (default: ./.paia_session)"],
+    ['session|s=s'  => "session file (default: ./paia-session.json)"],
     ['verbose|v'    => "show what's going on internally"],
     ['quiet|q'      => "don't show processing"],
     ['token|t=s'    => "explicit access_token"],
     ["username|u=s" => "username for login"],
     ["password|p=s" => "password for login"],
-    ["scope:s"      => "comma-separated list of scopes for login"],
+    ["scope|e=s"    => "comma-separated list of scopes for login"],
+    ["help|h|?"     => "show help", { shortcircuit => 1 } ],
     ["version"      => "show client version", { shortcircuit => 1 } ];
 }
 
@@ -49,7 +36,7 @@ App::PAIA - Patrons Account Information API command line client
 
 =head1 VERSION
 
-version 0.11
+version 0.20
 
 =head1 SYNOPSIS
 

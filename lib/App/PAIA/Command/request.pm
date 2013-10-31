@@ -1,10 +1,9 @@
 #ABSTRACT: request one or more items for reservation or delivery
 package App::PAIA::Command::request;
-use base 'App::PAIA::Command';
-use v5.14;
-our $VERSION = '0.11'; #VERSION
-
-use App::PAIA::JSON;
+use strict;
+use v5.10;
+use parent 'App::PAIA::Command';
+our $VERSION = '0.20'; #VERSION
 
 sub usage_desc {
     "%c request %o URI [item=URI] [edition=URI] ..."
@@ -19,8 +18,7 @@ sub execute {
     $self->usage_error("Missing document URIs to request")
         unless @docs;
 
-    my $response = $self->core_request( 'POST', 'request', { doc => \@docs } );
-    print encode_json($response);
+    $self->core_request( 'POST', 'request', { doc => \@docs } );
 }
 
 1;
@@ -36,7 +34,7 @@ App::PAIA::Command::request - request one or more items for reservation or deliv
 
 =head1 VERSION
 
-version 0.11
+version 0.20
 
 =head1 AUTHOR
 

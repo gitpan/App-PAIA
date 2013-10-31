@@ -1,25 +1,44 @@
 #ABSTRACT: common base class of PAIA client commands
 package App::PAIA::Command;
+use strict;
+use v5.10;
 use App::Cmd::Setup -command;
-use v5.14;
-our $VERSION = '0.11'; #VERSION
+our $VERSION = '0.20'; #VERSION
 
 use App::PAIA::Agent;
 use App::PAIA::JSON;
 use URI::Escape;
 use URI;
 
+sub config {
+    my ($self) = @_;
+    $self->{config} //= App::PAIA::JSON::File->new(
+        owner => $self,
+        type  => 'config',
+        file  => $self->app->global_options->config,
+    );
+}
+
+sub session {
+    my ($self) = @_;
+    $self->{session} //= App::PAIA::JSON::File->new(
+        owner => $self,
+        type  => 'session',
+        file  => $self->app->global_options->session,
+    );
+}
+
 sub option { 
     my ($self, $name) = @_;
     $self->app->global_options->{$name} # command line 
-        // $self->session->{$name}      # session file
-        // $self->config->{$name};      # config file
+        // $self->session->get($name)   # session file
+        // $self->config->get($name);   # config file
 }
 
 sub explicit_option {
     my ($self, $name) = @_;
     $self->app->global_options->{$name} # command line
-        // $self->config->{$name};      # config file
+        // $self->config->get($name);   # config file
 }
 
 # get base URL
@@ -50,8 +69,8 @@ sub token {
     my ($self) = @_;
 
     $self->app->global_options->{'token'}
-        // $self->session->{'access_token'} 
-        // $self->config->{'access_token'};
+        // $self->session->get('access_token') 
+        // $self->config->get('access_token');
 }
 
 sub not_authentificated {
@@ -59,7 +78,7 @@ sub not_authentificated {
 
     my $token = $self->token // return "missing access token";
 
-    if ( my $expires = $self->session->{expires_at} ) {
+    if ( my $expires = $self->session->get('expires_at') ) {
         if ($expires <= time) {
             return "access token expired";
         }
@@ -86,48 +105,6 @@ sub log {
     }
 }
 
-# <TODO>: cleanup duplicated code
-sub config_file {
-    my ($self) = @_;
-    $self->app->global_options->config
-        // (-e 'paia.json' ? 'paia.json' : undef);
-}
-
-sub config {
-    my ($self) = @_;
-    $self->{config} //= $self->load_file( $self->config_file, 'config file' );
-}
-
-sub session_file {
-    my ($self) = @_;
-    $self->app->global_options->session
-        // (-e '.paia_session' ? '.paia_session' : undef);
-}
-
-sub session {
-    my ($self) = @_;
-    $self->{session} //= $self->load_file( $self->session_file, 'session file' );
-}
-
-sub load_file {
-    my ($self, $file, $type) = @_;
-    return { } unless defined $file;
-    local $/;
-    open (my $fh, '<', $file) or die "failed to open $type $file\n";
-    decode_json(<$fh>,$file);
-}
-
-# </TODO>
-
-sub save_session {
-    my ($self) = @_;
-    my $file = $self->session_file // '.paia_session';
-    open (my $fh, '>', $file) or die "failed to open $file";
-    print {$fh} encode_json($self->session);
-    close $fh;
-    $self->log("saved session to $file");
-}
-
 sub agent {
     my ($self) = @_;
     $self->{agent} //= App::PAIA::Agent->new(
@@ -147,15 +124,14 @@ sub request {
     my ($response, $json) = $self->agent->request( $method, $url, $param, %headers );
 
     if ($response->{status} ne '200') {
-        die "HTTP request failed with response code ".$response->{status}.":\n".
-            $response->{content}.
-            "\n";
+        my $msg = $response->{content} // 'HTTP request failed: '.$response->{status};
+        die "$msg\n";
     }
 
     # TODO: more error handling
 
     if (my $scopes = $response->{headers}->{'x-oauth-scopes'}) {
-        $self->{session}->{scope} = $scopes;
+        $self->session->set( scope => $scopes );
     }
 
     return $json;
@@ -182,12 +158,12 @@ sub login {
 
     $self->{$_} = $response->{$_} for qw(expires_in access_token token_type patron scope);
 
-    $self->{session}->{$_} = $response->{$_} for qw(access_token patron scope);
-    $self->{session}->{expires_at} = time + $response->{expires_in};
-    $self->{session}->{auth} = $auth;
-    $self->{session}->{core} = $self->core if defined $self->core;
+    $self->session->set( $_, $response->{$_} ) for qw(access_token patron scope);
+    $self->session->set( expires_at => time + $response->{expires_in} );
+    $self->session->set( auth => $auth );
+    $self->session->set( core => $self->core ) if defined $self->core;
 
-    $self->save_session;
+    $self->session->store;
     
     return $response;
 }
@@ -203,20 +179,28 @@ our %required_scopes = (
     change  => 'change_password',
 );
 
+sub auto_login_for {
+    my ($self, $command) = @_;
+
+    my $scope = $required_scopes{$command};
+
+    if ($self->not_authentificated( $scope )) {
+        # add to existing scopes (TODO: only if wanted)
+        my $new_scope = join ' ', split(' ',$self->scope // ''), $scope;
+        $self->log("auto-login with scope '$new_scope'");
+        $self->login( $new_scope );
+        if ( $self->scope and !$self->has_scope($scope) ) {
+            die "current scope does not include $scope!\n";
+        }
+    }
+}
+
 sub core_request {
     my ($self, $method, $command, $params) = @_;
 
     my $core  = $self->core // $self->usage_error("missing PAIA core server URL");
-    my $scope = $required_scopes{$command};
 
-    if ($self->not_authentificated( $scope )) {
-        $self->log("auto-login with scope $scope");
-        $self->login( $scope );
-        if ( $self->scope and !$self->has_scope($scope) ) {
-            say "current scope does not include $scope!";
-            exit 1;
-        }
-    }
+    $self->auto_login_for($command);
 
     my $patron = $self->patron // $self->usage_error("missing patron identifier");
 
@@ -224,9 +208,9 @@ sub core_request {
     $url .= "/$command" if $command ne 'patron';
 
     # save PAIA core URL in session
-    if ( ($self->session->{core} // '') ne $core ) {
-        $self->{session}->{core} = $core;
-        $self->save_session;
+    if ( ($self->session->get('core') // '') ne $core ) {
+        $self->session->set( core => $core );
+        $self->session->store;
         # TODO: could we save new expiry as well? 
     }
 
@@ -245,6 +229,22 @@ sub uri_list {
     } @_;
 }
 
+# TODO: Think about making this part of App::Cmd
+sub execute {
+    my $self = shift;
+
+    if ($self->app->global_options->version) {
+        $self->app->execute_command( $self->app->prepare_command('version') );
+        exit;
+    } elsif ($self->app->global_options->help) {
+       $self->app->execute_command( $self->app->prepare_command('help', @ARGV) );
+        exit;
+    }
+
+    my $response = $self->_execute(@_);
+    print encode_json($response) if defined $response;
+}
+
 1;
 
 __END__
@@ -258,7 +258,7 @@ App::PAIA::Command - common base class of PAIA client commands
 
 =head1 VERSION
 
-version 0.11
+version 0.20
 
 =head1 AUTHOR
 

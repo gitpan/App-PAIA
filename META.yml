@@ -13,11 +13,14 @@ meta-spec:
   version: 1.4
 name: App-PAIA
 requires:
-  App::Cmd: 0.314
+  App::Cmd: 0.322
+  HTTP::Tiny: 0.024
   IO::Socket::SSL: 1.56
+  JSON::PP: 2.27103
   Net::SSLeay: 1.49
+  perl: v5.10.0
 resources:
   bugtracker: https://github.com/gbv/App-PAIA/issues
   homepage: https://github.com/gbv/App-PAIA
   repository: https://github.com/gbv/App-PAIA.git
-version: 0.11
+version: 0.20

@@ -1,11 +1,17 @@
 #ABSTRACT: show help
 package App::PAIA::Command::help;
+use strict;
+use v5.10;
 use parent 'App::Cmd::Command::help';
-use v5.14;
-our $VERSION = '0.11'; #VERSION
+our $VERSION = '0.20'; #VERSION
 
 sub execute {
     my ($self, $opts, $args) = @_;
+
+    if ($self->app->global_options->version) {
+        $self->app->execute_command( $self->app->prepare_command('version') );
+        exit;
+    }
 
     if (@$args) {
         my $command = $args->[0];
@@ -41,7 +47,7 @@ sub execute {
         my @cmd_groups = (
             "PAIA auth commands" => [qw(login logout change)],
             "PAIA core commands" => [qw(patron items request renew cancel fees)],
-            "client commands"    => [qw(session help)]
+            "client commands"    => [qw(config session help)]
         );
 
         while (@cmd_groups) {
@@ -70,7 +76,7 @@ App::PAIA::Command::help - show help
 
 =head1 VERSION
 
-version 0.11
+version 0.20
 
 =head1 AUTHOR
 

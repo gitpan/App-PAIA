@@ -1,10 +1,9 @@
 #ABSTRACT: cancel requests
 package App::PAIA::Command::cancel;
-use base 'App::PAIA::Command';
-use v5.14;
-our $VERSION = '0.11'; #VERSION
-
-use App::PAIA::JSON;
+use strict;
+use v5.10;
+use parent 'App::PAIA::Command';
+our $VERSION = '0.20'; #VERSION
 
 sub description {
     "Cancels requests given by their item's (default) or edition's URI."
@@ -14,7 +13,7 @@ sub usage_desc {
     "%c cancel %o URI [item=URI] [edition=URI] ..."
 }
 
-sub execute {
+sub _execute {
     my ($self, $opt, $args) = @_;
 
     my @docs = $self->uri_list(@$args);
@@ -22,8 +21,7 @@ sub execute {
     $self->usage_error("Missing document URIs to cancel")
         unless @docs;
 
-    my $response = $self->core_request( 'POST', 'cancel', { doc => \@docs } );
-    print encode_json($response);
+    $self->core_request( 'POST', 'cancel', { doc => \@docs } );
 }
 
 1;
@@ -39,7 +37,7 @@ App::PAIA::Command::cancel - cancel requests
 
 =head1 VERSION
 
-version 0.11
+version 0.20
 
 =head1 AUTHOR
 
