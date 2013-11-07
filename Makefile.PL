@@ -26,10 +26,11 @@ my %WriteMakefileArgs = (
     "HTTP::Tiny" => "0.024",
     "IO::Socket::SSL" => "1.56",
     "JSON::PP" => "2.27103",
-    "Net::SSLeay" => "1.49"
+    "Net::SSLeay" => "1.49",
+    "URI" => "1.59"
   },
   "TEST_REQUIRES" => {},
-  "VERSION" => "0.20",
+  "VERSION" => "0.21",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -3,20 +3,17 @@ package App::PAIA::Command::change;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.20'; #VERSION
+our $VERSION = '0.21'; #VERSION
 
 sub _execute {
     my ($self, $opt, $args) = @_;
 
     my $auth = $self->auth // $self->usage_error("missing PAIA auth URL");
 
-    # take credentials from command line or config file only
     my %params = (
-        patron => $self->patron,
-        username =>
-            ($self->explicit_option('username') // $self->usage_error("missing username")),
-        old_password => 
-            ($self->explicit_option('password') // $self->usage_error("missing password")),
+        patron       => $self->patron,
+        username     => $self->username,
+        old_password => $self->password,
     );
 
     $self->auto_login_for('change');
@@ -58,7 +55,7 @@ App::PAIA::Command::change - change login password
 
 =head1 VERSION
 
-version 0.20
+version 0.21
 
 =head1 AUTHOR
 

@@ -3,7 +3,7 @@ package App::PAIA::Command::help;
 use strict;
 use v5.10;
 use parent 'App::Cmd::Command::help';
-our $VERSION = '0.20'; #VERSION
+our $VERSION = '0.21'; #VERSION
 
 sub execute {
     my ($self, $opts, $args) = @_;
@@ -76,7 +76,7 @@ App::PAIA::Command::help - show help
 
 =head1 VERSION
 
-version 0.20
+version 0.21
 
 =head1 AUTHOR
 

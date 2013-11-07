@@ -18,9 +18,10 @@ requires:
   IO::Socket::SSL: 1.56
   JSON::PP: 2.27103
   Net::SSLeay: 1.49
+  URI: 1.59
   perl: v5.10.0
 resources:
   bugtracker: https://github.com/gbv/App-PAIA/issues
   homepage: https://github.com/gbv/App-PAIA
   repository: https://github.com/gbv/App-PAIA.git
-version: 0.20
+version: 0.21

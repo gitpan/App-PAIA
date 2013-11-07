@@ -3,7 +3,7 @@ package App::PAIA::Command::logout;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.20'; #VERSION
+our $VERSION = '0.21'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -20,7 +20,7 @@ sub _execute {
     if (defined $self->session->file) {
         $self->session;
         unlink $self->session->file;
-        $self->log("deleted session file");
+        $self->logger->("deleted session file");
     }
 
     return;
@@ -39,7 +39,7 @@ App::PAIA::Command::logout - invalidate an access token
 
 =head1 VERSION
 
-version 0.20
+version 0.21
 
 =head1 AUTHOR
 

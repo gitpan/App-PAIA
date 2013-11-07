@@ -3,7 +3,7 @@ package App::PAIA::Command::patron;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.20'; #VERSION
+our $VERSION = '0.21'; #VERSION
 
 sub _execute {
     my ($self, $opt, $args) = @_;
@@ -24,7 +24,7 @@ App::PAIA::Command::patron - get general patron information
 
 =head1 VERSION
 
-version 0.20
+version 0.21
 
 =head1 AUTHOR
 

@@ -3,7 +3,7 @@ package App::PAIA::Command::cancel;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.20'; #VERSION
+our $VERSION = '0.21'; #VERSION
 
 sub description {
     "Cancels requests given by their item's (default) or edition's URI."
@@ -37,7 +37,7 @@ App::PAIA::Command::cancel - cancel requests
 
 =head1 VERSION
 
-version 0.20
+version 0.21
 
 =head1 AUTHOR
 
