@@ -28,4 +28,5 @@ t/00-compile.t
 t/10-config.t
 t/15-session.t
 t/20-login.t
+t/30-agent.t
 t/author-critic.t

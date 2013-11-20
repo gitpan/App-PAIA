@@ -3,7 +3,7 @@ package App::PAIA;
 use strict;
 use v5.10;
 use parent 'App::Cmd';
-our $VERSION = '0.21'; #VERSION
+our $VERSION = '0.22'; #VERSION
 
 sub global_opt_spec {
     ['base|b=s'     => "base URL of PAIA server"],
@@ -13,11 +13,12 @@ sub global_opt_spec {
     ['config|c=s'   => "configuration file (default: ./paia.json)"],
     ['session|s=s'  => "session file (default: ./paia-session.json)"],
     ['verbose|v'    => "show what's going on internally"],
-    ['full|f'       => "show full HTTP requests and responses"],
-    ['quiet|q'      => "don't print anything"],
-    ['token|t=s'    => "explicit access_token"],
+    ['debug|D|V'    => "show full HTTP requests and responses"],
+    ['quiet|q'      => "don't print PAIA response"],
     ["username|u=s" => "username for login"],
     ["password|p=s" => "password for login"],
+    ['token|t=s'    => "explicit access_token"],
+    ["patron|o=s"   => "explicit patron identifier"],
     ["scope|e=s"    => "comma-separated list of scopes for login"],
     ["help|h|?"     => "show help", { shortcircuit => 1 } ],
     ["version"      => "show client version", { shortcircuit => 1 } ];
@@ -37,7 +38,7 @@ App::PAIA - Patrons Account Information API command line client
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 SYNOPSIS
 

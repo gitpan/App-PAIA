@@ -2,7 +2,7 @@
 package App::PAIA::Agent;
 use strict;
 use v5.10;
-our $VERSION = '0.21'; #VERSION
+our $VERSION = '0.22'; #VERSION
 
 use HTTP::Tiny 0.025;
 use URI;
@@ -124,7 +124,7 @@ App::PAIA::Agent - HTTP client wrapper
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 DESCRIPTION
 

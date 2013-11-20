@@ -2,7 +2,7 @@
 package App::PAIA::JSON;
 use strict;
 use v5.10;
-our $VERSION = '0.21'; #VERSION
+our $VERSION = '0.22'; #VERSION
 
 use parent 'Exporter';
 our @EXPORT = qw(decode_json encode_json);
@@ -39,7 +39,7 @@ App::PAIA::JSON - Utility functions to encode/decode JSON
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 DESCRIPTION
 
