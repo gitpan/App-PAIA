@@ -2,11 +2,14 @@
 package App::PAIA::Tester;
 use strict;
 use v5.10;
-our $VERSION = '0.22'; #VERSION
+our $VERSION = '0.23'; #VERSION
 
 use parent 'Exporter';
 our @cmd = qw(stdout stderr output error exit_code);
-our @EXPORT = (qw(new_paia_test paia_response done_paia_test paia stdout_json debug), @cmd);
+our @EXPORT = (
+    qw(new_paia_test paia_response done_paia_test paia debug), 
+    qw(decode_json encode_json),
+    @cmd);
 
 use Test::More;
 use App::Cmd::Tester;
@@ -21,10 +24,6 @@ our $CWD = getcwd();
 our $RESULT;
 
 eval "sub $_ { \$RESULT->$_ }" for @cmd; ## no critic
-
-sub stdout_json {
-    decode_json($RESULT->stdout);
-}
 
 our $HTTP_TINY_REQUEST = \&HTTP::Tiny::request;
 
@@ -111,7 +110,7 @@ App::PAIA::Tester - Facilitate PAIA client unit tests
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 SYNOPSIS
 

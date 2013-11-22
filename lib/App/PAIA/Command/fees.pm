@@ -3,7 +3,7 @@ package App::PAIA::Command::fees;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.22'; #VERSION
+our $VERSION = '0.23'; #VERSION
 
 sub _execute {
     my ($self, $opt, $args) = @_;
@@ -24,7 +24,7 @@ App::PAIA::Command::fees - list fees
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 AUTHOR
 

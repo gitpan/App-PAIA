@@ -3,7 +3,7 @@ package App::PAIA::Command::items;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.22'; #VERSION
+our $VERSION = '0.23'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -26,7 +26,7 @@ App::PAIA::Command::items - list loans, reservations and other items related to 
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 AUTHOR
 

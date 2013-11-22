@@ -3,7 +3,7 @@ package App::PAIA::Command;
 use strict;
 use v5.10;
 use App::Cmd::Setup -command;
-our $VERSION = '0.22'; #VERSION
+our $VERSION = '0.23'; #VERSION
 
 use App::PAIA::Agent;
 use App::PAIA::JSON;
@@ -263,7 +263,7 @@ sub core_request {
 
     if ($json->{doc}) {
         # TODO: more details about failed documents
-        my @errors = map { $_->{error} if defined $_->{error} } @{$json->{doc}};
+        my @errors = grep { defined $_ } map { $_->{error} } @{$json->{doc}};
         if (@errors) {
             die join("\n", @errors)."\n";;
         }
@@ -315,7 +315,7 @@ App::PAIA::Command - common base class of PAIA client commands
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 AUTHOR
 
