@@ -3,7 +3,7 @@ package App::PAIA::Command::help;
 use strict;
 use v5.10;
 use parent 'App::Cmd::Command::help';
-our $VERSION = '0.23'; #VERSION
+our $VERSION = '0.24'; #VERSION
 
 sub execute {
     my ($self, $opts, $args) = @_;
@@ -66,9 +66,12 @@ sub execute {
 1;
 
 __END__
+
 =pod
 
-=encoding utf-8
+=encoding UTF-8
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -76,7 +79,7 @@ App::PAIA::Command::help - show help
 
 =head1 VERSION
 
-version 0.23
+version 0.24
 
 =head1 AUTHOR
 
@@ -90,4 +93,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

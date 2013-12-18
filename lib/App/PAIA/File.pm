@@ -2,7 +2,7 @@
 package App::PAIA::File;
 use strict;
 use v5.10;
-our $VERSION = '0.23'; #VERSION
+our $VERSION = '0.24'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -22,7 +22,7 @@ sub new {
 }
 
 sub file {
-    $_[0]->{file};
+    @_ > 1 ? ($_[0]->{file} = $_[1]) : $_[0]->{file};
 }
 
 sub get {
@@ -73,13 +73,22 @@ sub store {
     $self->{logger}->("saved $type file $file");
 }
 
+sub purge {
+    my ($self) = @_;
+
+    return unless defined $self->file && -e $self->file;
+    unlink $self->file;
+}
+
 1;
 
-
 __END__
+
 =pod
 
-=encoding utf-8
+=encoding UTF-8
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -87,7 +96,7 @@ App::PAIA::File - Utility class to read and write JSON files
 
 =head1 VERSION
 
-version 0.23
+version 0.24
 
 =head1 DESCRIPTION
 
@@ -106,4 +115,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

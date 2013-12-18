@@ -2,15 +2,17 @@
 ##no critic
 #ABSTRACT: Patrons Account Information API command line client 
 #PODNAME: paia
-our $VERSION = '0.23'; #VERSION
+our $VERSION = '0.24'; #VERSION
 use App::PAIA;
 App::PAIA->run;
 
-
 __END__
+
 =pod
 
-=encoding utf-8
+=encoding UTF-8
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -18,7 +20,7 @@ paia - Patrons Account Information API command line client
 
 =head1 VERSION
 
-version 0.23
+version 0.24
 
 =head1 SYNOPSIS
 
@@ -153,4 +155,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

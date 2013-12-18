@@ -3,7 +3,7 @@ package App::PAIA;
 use strict;
 use v5.10;
 use parent 'App::Cmd';
-our $VERSION = '0.23'; #VERSION
+our $VERSION = '0.24'; #VERSION
 
 sub global_opt_spec {
     ['base|b=s'     => "base URL of PAIA server"],
@@ -17,7 +17,7 @@ sub global_opt_spec {
     ['quiet|q'      => "don't print PAIA response"],
     ["username|u=s" => "username for login"],
     ["password|p=s" => "password for login"],
-    ['token|t=s'    => "explicit access_token"],
+    ['access_token|token|t=s' => "explicit access_token"],
     ["patron|o=s"   => "explicit patron identifier"],
     ["scope|e=s"    => "comma-separated list of scopes for login"],
     ["help|h|?"     => "show help", { shortcircuit => 1 } ],
@@ -26,11 +26,13 @@ sub global_opt_spec {
 
 1;
 
-
 __END__
+
 =pod
 
-=encoding utf-8
+=encoding UTF-8
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -38,7 +40,7 @@ App::PAIA - Patrons Account Information API command line client
 
 =head1 VERSION
 
-version 0.23
+version 0.24
 
 =head1 SYNOPSIS
 
@@ -48,13 +50,16 @@ Run C<paia help> or C<perldoc paia> for more commands and options.
 
 =head1 DESCRIPTION
 
-The Patrons Account Information API (PAIA) is a HTTP based API to access
-library patron information, such as loans, reservations, and fees. This client
-can be used to access PAIA servers via command line.
+The L<Patrons Account Information API (PAIA)|http://gbv.github.io/paia/> is a
+HTTP based API to access library patron information, such as loans,
+reservations, and fees. This client can be used to access PAIA servers via
+command line.
 
 =head1 USAGE
 
 See the documentation of of L<paia> command.
+
+To avoid SSL errors install L<Mozilla::CA> or use option C<--insecure>.
 
 =head1 IMPLEMENTATION
 
@@ -88,4 +93,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

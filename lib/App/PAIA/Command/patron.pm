@@ -3,7 +3,7 @@ package App::PAIA::Command::patron;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.23'; #VERSION
+our $VERSION = '0.24'; #VERSION
 
 sub _execute {
     my ($self, $opt, $args) = @_;
@@ -14,9 +14,12 @@ sub _execute {
 1;
 
 __END__
+
 =pod
 
-=encoding utf-8
+=encoding UTF-8
+
+=encoding UTF-8
 
 =head1 NAME
 
@@ -24,7 +27,7 @@ App::PAIA::Command::patron - get general patron information
 
 =head1 VERSION
 
-version 0.23
+version 0.24
 
 =head1 AUTHOR
 
@@ -38,4 +41,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
