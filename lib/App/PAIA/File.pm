@@ -2,7 +2,7 @@
 package App::PAIA::File;
 use strict;
 use v5.10;
-our $VERSION = '0.24'; #VERSION
+our $VERSION = '0.25'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -88,15 +88,13 @@ __END__
 
 =encoding UTF-8
 
-=encoding UTF-8
-
 =head1 NAME
 
 App::PAIA::File - Utility class to read and write JSON files
 
 =head1 VERSION
 
-version 0.24
+version 0.25
 
 =head1 DESCRIPTION
 

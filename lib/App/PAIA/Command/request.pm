@@ -3,7 +3,7 @@ package App::PAIA::Command::request;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.24'; #VERSION
+our $VERSION = '0.25'; #VERSION
 
 sub usage_desc {
     "%c request %o URI [item=URI] [edition=URI] ..."
@@ -29,15 +29,13 @@ __END__
 
 =encoding UTF-8
 
-=encoding UTF-8
-
 =head1 NAME
 
 App::PAIA::Command::request - request one or more items for reservation or delivery
 
 =head1 VERSION
 
-version 0.24
+version 0.25
 
 =head1 AUTHOR
 

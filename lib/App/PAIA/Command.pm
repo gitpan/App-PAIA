@@ -3,7 +3,7 @@ package App::PAIA::Command;
 use strict;
 use v5.10;
 use App::Cmd::Setup -command;
-our $VERSION = '0.24'; #VERSION
+our $VERSION = '0.25'; #VERSION
 
 use App::PAIA::Agent;
 use App::PAIA::JSON;
@@ -322,15 +322,13 @@ __END__
 
 =encoding UTF-8
 
-=encoding UTF-8
-
 =head1 NAME
 
 App::PAIA::Command - common base class of PAIA client commands
 
 =head1 VERSION
 
-version 0.24
+version 0.25
 
 =head1 AUTHOR
 

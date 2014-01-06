@@ -2,7 +2,7 @@
 ##no critic
 #ABSTRACT: Patrons Account Information API command line client 
 #PODNAME: paia
-our $VERSION = '0.24'; #VERSION
+our $VERSION = '0.25'; #VERSION
 use App::PAIA;
 App::PAIA->run;
 
@@ -12,15 +12,13 @@ __END__
 
 =encoding UTF-8
 
-=encoding UTF-8
-
 =head1 NAME
 
 paia - Patrons Account Information API command line client 
 
 =head1 VERSION
 
-version 0.24
+version 0.25
 
 =head1 SYNOPSIS
 

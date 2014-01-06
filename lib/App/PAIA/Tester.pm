@@ -2,7 +2,7 @@
 package App::PAIA::Tester;
 use strict;
 use v5.10;
-our $VERSION = '0.24'; #VERSION
+our $VERSION = '0.25'; #VERSION
 
 use parent 'Exporter';
 our @cmd = qw(stdout stderr output error exit_code);
@@ -105,15 +105,13 @@ __END__
 
 =encoding UTF-8
 
-=encoding UTF-8
-
 =head1 NAME
 
 App::PAIA::Tester - Facilitate PAIA client unit tests
 
 =head1 VERSION
 
-version 0.24
+version 0.25
 
 =head1 SYNOPSIS
 

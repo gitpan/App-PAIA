@@ -3,7 +3,7 @@ package App::PAIA::Command::renew;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.24'; #VERSION
+our $VERSION = '0.25'; #VERSION
 
 sub description {
     "Renews documents given by their item's (default) or edition's URI."
@@ -32,15 +32,13 @@ __END__
 
 =encoding UTF-8
 
-=encoding UTF-8
-
 =head1 NAME
 
 App::PAIA::Command::renew - Renew one or more documents held by a patron
 
 =head1 VERSION
 
-version 0.24
+version 0.25
 
 =head1 AUTHOR
 

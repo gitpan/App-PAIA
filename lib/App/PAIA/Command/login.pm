@@ -3,7 +3,7 @@ package App::PAIA::Command::login;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.24'; #VERSION
+our $VERSION = '0.25'; #VERSION
 
 sub description {
     "requests or renews an access_token from a PAIA auth server."
@@ -23,15 +23,13 @@ __END__
 
 =encoding UTF-8
 
-=encoding UTF-8
-
 =head1 NAME
 
 App::PAIA::Command::login - get a access token and patron identifier
 
 =head1 VERSION
 
-version 0.24
+version 0.25
 
 =head1 AUTHOR
 
