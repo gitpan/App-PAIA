@@ -3,7 +3,7 @@ package App::PAIA::Command::request;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.25'; #VERSION
+our $VERSION = '0.26'; #VERSION
 
 sub usage_desc {
     "%c request %o URI [item=URI] [edition=URI] ..."
@@ -35,7 +35,7 @@ App::PAIA::Command::request - request one or more items for reservation or deliv
 
 =head1 VERSION
 
-version 0.25
+version 0.26
 
 =head1 AUTHOR
 

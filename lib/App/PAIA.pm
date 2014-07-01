@@ -3,7 +3,7 @@ package App::PAIA;
 use strict;
 use v5.10;
 use parent 'App::Cmd';
-our $VERSION = '0.25'; #VERSION
+our $VERSION = '0.26'; #VERSION
 
 sub global_opt_spec {
     ['base|b=s'     => "base URL of PAIA server"],
@@ -38,7 +38,7 @@ App::PAIA - Patrons Account Information API command line client
 
 =head1 VERSION
 
-version 0.25
+version 0.26
 
 =head1 SYNOPSIS
 

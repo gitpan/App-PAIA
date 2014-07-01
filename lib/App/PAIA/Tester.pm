@@ -2,7 +2,7 @@
 package App::PAIA::Tester;
 use strict;
 use v5.10;
-our $VERSION = '0.25'; #VERSION
+our $VERSION = '0.26'; #VERSION
 
 use parent 'Exporter';
 our @cmd = qw(stdout stderr output error exit_code);
@@ -111,7 +111,7 @@ App::PAIA::Tester - Facilitate PAIA client unit tests
 
 =head1 VERSION
 
-version 0.25
+version 0.26
 
 =head1 SYNOPSIS
 

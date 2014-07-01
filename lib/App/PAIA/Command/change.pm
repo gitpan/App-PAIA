@@ -3,7 +3,7 @@ package App::PAIA::Command::change;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.25'; #VERSION
+our $VERSION = '0.26'; #VERSION
 
 sub _execute {
     my ($self, $opt, $args) = @_;
@@ -56,7 +56,7 @@ App::PAIA::Command::change - change login password
 
 =head1 VERSION
 
-version 0.25
+version 0.26
 
 =head1 AUTHOR
 

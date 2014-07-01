@@ -2,7 +2,7 @@
 ##no critic
 #ABSTRACT: Patrons Account Information API command line client 
 #PODNAME: paia
-our $VERSION = '0.25'; #VERSION
+our $VERSION = '0.26'; #VERSION
 use App::PAIA;
 App::PAIA->run;
 
@@ -18,7 +18,7 @@ paia - Patrons Account Information API command line client
 
 =head1 VERSION
 
-version 0.25
+version 0.26
 
 =head1 SYNOPSIS
 

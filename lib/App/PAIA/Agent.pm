@@ -2,7 +2,7 @@
 package App::PAIA::Agent;
 use strict;
 use v5.10;
-our $VERSION = '0.25'; #VERSION
+our $VERSION = '0.26'; #VERSION
 
 use HTTP::Tiny 0.024;
 use URI;
@@ -24,7 +24,8 @@ sub request {
     my $url     = URI->new(shift) // '';
     my $param   = shift // {};
     my $headers = { 
-        Accept => 'application/json',
+        Accept       => 'application/json',
+        'User-Agent' => "App::PAIA/".($VERSION//'?'),
         @_ 
     };
     my $content;
@@ -124,7 +125,7 @@ App::PAIA::Agent - HTTP client wrapper
 
 =head1 VERSION
 
-version 0.25
+version 0.26
 
 =head1 DESCRIPTION
 

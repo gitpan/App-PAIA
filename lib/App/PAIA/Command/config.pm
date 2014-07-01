@@ -3,7 +3,7 @@ package App::PAIA::Command::config;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.25'; #VERSION
+our $VERSION = '0.26'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -78,7 +78,7 @@ App::PAIA::Command::config - show or modify configuration
 
 =head1 VERSION
 
-version 0.25
+version 0.26
 
 =head1 AUTHOR
 

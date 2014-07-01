@@ -2,7 +2,7 @@
 package App::PAIA::File;
 use strict;
 use v5.10;
-our $VERSION = '0.25'; #VERSION
+our $VERSION = '0.26'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -94,7 +94,7 @@ App::PAIA::File - Utility class to read and write JSON files
 
 =head1 VERSION
 
-version 0.25
+version 0.26
 
 =head1 DESCRIPTION
 
