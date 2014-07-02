@@ -2,7 +2,7 @@
 package App::PAIA::Tester;
 use strict;
 use v5.10;
-our $VERSION = '0.26'; #VERSION
+our $VERSION = '0.27'; #VERSION
 
 use parent 'Exporter';
 our @cmd = qw(stdout stderr output error exit_code);
@@ -111,7 +111,7 @@ App::PAIA::Tester - Facilitate PAIA client unit tests
 
 =head1 VERSION
 
-version 0.26
+version 0.27
 
 =head1 SYNOPSIS
 
@@ -148,7 +148,7 @@ Jakob Voß
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Jakob Voß.
+This software is copyright (c) 2014 by Jakob Voß.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

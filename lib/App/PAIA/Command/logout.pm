@@ -3,7 +3,7 @@ package App::PAIA::Command::logout;
 use strict;
 use v5.10;
 use parent 'App::PAIA::Command';
-our $VERSION = '0.26'; #VERSION
+our $VERSION = '0.27'; #VERSION
 
 use App::PAIA::JSON;
 
@@ -39,7 +39,7 @@ App::PAIA::Command::logout - invalidate an access token
 
 =head1 VERSION
 
-version 0.26
+version 0.27
 
 =head1 AUTHOR
 
@@ -47,7 +47,7 @@ Jakob Voß
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Jakob Voß.
+This software is copyright (c) 2014 by Jakob Voß.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
